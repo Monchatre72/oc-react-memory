@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import shuffle from 'lodash.shuffle'
 
 import './App.css'
-
 import Card from './Card'
-import GuessCount from './GuessCount'
-import HallOfFame, {FAKE_HOF} from './HallOfFame'
+import HallOfFame from './HallOfFame'
 import HighScoreInput from  './HighScoreInput'
+import GuessCount from './GuessCount'
 
 const SIDE = 6
-const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
+export const SYMBOLS = '😀🎉💖🎩🐶🐱🦄🐬🌍🌛🌞💫🍎🍌🍓🍐🍟🍿'
 const VISUAL_PAUSE_MSECS = 750
 class App extends Component {
 
@@ -91,35 +90,28 @@ handleCardClick = index => {
 
 
     return (
-
-
-
       <div className="memory">
+            {
+              cards.map((card, index) => (
+                <Card
+                  card={card}
+                  feedback={this.getFeedbackForCard(index)}
+                  key={index}
+                  index={index}
+                  onClick={this.handleCardClick}
+                />
+              ))
+            }
 
-{
-  cards.map((card, index) => (
-    <Card
-      card={card}
-      feedback={this.getFeedbackForCard(index)}
-      key={index}
-      index={index}
-      onClick={this.handleCardClick}
-    />
-  ))
-}
-
-{
-  won &&
-    (hallOfFame ? (
-      <HallOfFame entries={hallOfFame} />
-    ) : (
-      <HighScoreInput guesses={guesses} onStored={this.displayHallOfFame} />
-    ))
-}
-
-
-
-
+            {
+              won &&
+                (hallOfFame ? (
+                  <HallOfFame entries={hallOfFame} />
+                ) : (
+                  <HighScoreInput guesses={guesses} onStored={this.displayHallOfFame} />
+                ))
+            }
+                 <GuessCount guesses={guesses} />
       </div>
     )
   }
